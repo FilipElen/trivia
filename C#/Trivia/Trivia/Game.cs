@@ -36,9 +36,9 @@ namespace UglyTrivia
             }
         }
 
-        public String createRockQuestion(int index)
+        public String createRockQuestion(int currentRockQuestion)
         {
-            return "Rock Question " + index;
+            return "Rock Question " + currentRockQuestion;
         }
 
         public bool isPlayable()
