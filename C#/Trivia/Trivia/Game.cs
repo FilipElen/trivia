@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Trivia;
 
 namespace UglyTrivia
 {
-    public class Game
+    public class Game : IOutputter
     {
-        private void generateOutput(string output)
-        {
-            Console.WriteLine(output);
-        }
+
 
         List<string> players = new List<string>();
 
@@ -59,8 +57,8 @@ namespace UglyTrivia
             purses[howManyPlayers()] = 0;
             inPenaltyBox[howManyPlayers()] = false;
 
-            generateOutput(playerName + " was added");
-            generateOutput("They are player number " + players.Count);
+            GenerateOutput(playerName + " was added");
+            GenerateOutput("They are player number " + players.Count);
             return true;
         }
 
@@ -71,8 +69,8 @@ namespace UglyTrivia
 
         public void roll(int roll)
         {
-           generateOutput(players[currentPlayer] + " is the current player");
-           generateOutput("They have rolled a " + roll);
+           GenerateOutput(players[currentPlayer] + " is the current player");
+           GenerateOutput("They have rolled a " + roll);
             const int TRIGGERRESETPLACE = 11;
             const int RESETPLACE = 12;
 
@@ -82,19 +80,19 @@ namespace UglyTrivia
                 {
                     isGettingOutOfPenaltyBox = true;
 
-                   generateOutput(players[currentPlayer] + " is getting out of the penalty box");
+                   GenerateOutput(players[currentPlayer] + " is getting out of the penalty box");
                     places[currentPlayer] = places[currentPlayer] + roll;
                     if (places[currentPlayer] > TRIGGERRESETPLACE) places[currentPlayer] = places[currentPlayer] - RESETPLACE;
 
-                   generateOutput(players[currentPlayer]
+                   GenerateOutput(players[currentPlayer]
                             + "'s new location is "
                             + places[currentPlayer]);
-                   generateOutput("The category is " + currentCategory());
+                   GenerateOutput("The category is " + currentCategory());
                     askQuestion();
                 }
                 else
                 {
-                   generateOutput(players[currentPlayer] + " is not getting out of the penalty box");
+                   GenerateOutput(players[currentPlayer] + " is not getting out of the penalty box");
                     isGettingOutOfPenaltyBox = false;
                 }
 
@@ -105,10 +103,10 @@ namespace UglyTrivia
                 places[currentPlayer] = places[currentPlayer] + roll;
                 if (places[currentPlayer] > TRIGGERRESETPLACE) places[currentPlayer] = places[currentPlayer] - RESETPLACE;
 
-               generateOutput(players[currentPlayer]
+               GenerateOutput(players[currentPlayer]
                         + "'s new location is "
                         + places[currentPlayer]);
-               generateOutput("The category is " + currentCategory());
+               GenerateOutput("The category is " + currentCategory());
                 askQuestion();
             }
 
@@ -118,22 +116,22 @@ namespace UglyTrivia
         {
             if (currentCategory() == "Pop")
             {
-               generateOutput(popQuestions.First());
+               GenerateOutput(popQuestions.First());
                 popQuestions.RemoveFirst();
             }
             if (currentCategory() == "Science")
             {
-               generateOutput(scienceQuestions.First());
+               GenerateOutput(scienceQuestions.First());
                 scienceQuestions.RemoveFirst();
             }
             if (currentCategory() == "Sports")
             {
-               generateOutput(sportsQuestions.First());
+               GenerateOutput(sportsQuestions.First());
                 sportsQuestions.RemoveFirst();
             }
             if (currentCategory() == "Rock")
             {
-               generateOutput(rockQuestions.First());
+               GenerateOutput(rockQuestions.First());
                 rockQuestions.RemoveFirst();
             }
         }
@@ -159,9 +157,9 @@ namespace UglyTrivia
             {
                 if (isGettingOutOfPenaltyBox)
                 {
-                   generateOutput("Answer was correct!!!!");
+                   GenerateOutput("Answer was correct!!!!");
                     purses[currentPlayer]++;
-                   generateOutput(players[currentPlayer]
+                   GenerateOutput(players[currentPlayer]
                             + " now has "
                             + purses[currentPlayer]
                             + " Gold Coins.");
@@ -185,9 +183,9 @@ namespace UglyTrivia
             else
             {
 
-               generateOutput("Answer was corrent!!!!");
+               GenerateOutput("Answer was corrent!!!!");
                 purses[currentPlayer]++;
-               generateOutput(players[currentPlayer]
+               GenerateOutput(players[currentPlayer]
                         + " now has "
                         + purses[currentPlayer]
                         + " Gold Coins.");
@@ -202,8 +200,8 @@ namespace UglyTrivia
 
         public bool wrongAnswer()
         {
-           generateOutput("Question was incorrectly answered");
-           generateOutput(players[currentPlayer] + " was sent to the penalty box");
+           GenerateOutput("Question was incorrectly answered");
+           GenerateOutput(players[currentPlayer] + " was sent to the penalty box");
             inPenaltyBox[currentPlayer] = true;
 
             currentPlayer++;
@@ -215,6 +213,11 @@ namespace UglyTrivia
         private bool didPlayerWin()
         {
             return !(purses[currentPlayer] == 6);
+        }
+
+        public void GenerateOutput(string output)
+        {
+            Console.WriteLine(output);
         }
     }
 
