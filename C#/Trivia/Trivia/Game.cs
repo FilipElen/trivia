@@ -70,7 +70,8 @@ namespace UglyTrivia
         {
             Console.WriteLine(players[currentPlayer] + " is the current player");
             Console.WriteLine("They have rolled a " + roll);
-
+            const int TRIGGERRESETPLACE = 11;
+            const int RESETPLACE = 12;
             if (inPenaltyBox[currentPlayer])
             {
                 if (roll % 2 != 0)
@@ -79,7 +80,7 @@ namespace UglyTrivia
 
                     Console.WriteLine(players[currentPlayer] + " is getting out of the penalty box");
                     places[currentPlayer] = places[currentPlayer] + roll;
-                    if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+                    if (places[currentPlayer] > TRIGGERRESETPLACE) places[currentPlayer] = places[currentPlayer] - RESETPLACE;
 
                     Console.WriteLine(players[currentPlayer]
                             + "'s new location is "
@@ -98,7 +99,7 @@ namespace UglyTrivia
             {
 
                 places[currentPlayer] = places[currentPlayer] + roll;
-                if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+                if (places[currentPlayer] > TRIGGERRESETPLACE) places[currentPlayer] = places[currentPlayer] - RESETPLACE;
 
                 Console.WriteLine(players[currentPlayer]
                         + "'s new location is "
