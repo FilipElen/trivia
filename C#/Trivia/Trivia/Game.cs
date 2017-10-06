@@ -6,7 +6,7 @@ using Trivia;
 
 namespace UglyTrivia
 {
-    public class Game : IOutputter
+    public class Game 
     {
 
 
@@ -25,6 +25,11 @@ namespace UglyTrivia
         int currentPlayer = 0;
         bool isGettingOutOfPenaltyBox;
 
+        private readonly IOutputter _outputter;
+        public Game( IOutputter outputter) : this()
+        {
+            _outputter = outputter;
+        }
         public Game()
         {
             const int MAXAMOUNTQUESTIONS = 50;
@@ -50,15 +55,15 @@ namespace UglyTrivia
 
         public bool add(String playerName)
         {
-
+           
 
             players.Add(playerName);
             places[howManyPlayers()] = 0;
             purses[howManyPlayers()] = 0;
             inPenaltyBox[howManyPlayers()] = false;
 
-            GenerateOutput(playerName + " was added");
-            GenerateOutput("They are player number " + players.Count);
+            _outputter.GenerateOutput(playerName + " was added");
+            _outputter.GenerateOutput("They are player number " + players.Count);
             return true;
         }
 
@@ -69,8 +74,8 @@ namespace UglyTrivia
 
         public void roll(int roll)
         {
-           GenerateOutput(players[currentPlayer] + " is the current player");
-           GenerateOutput("They have rolled a " + roll);
+           _outputter.GenerateOutput(players[currentPlayer] + " is the current player");
+           _outputter.GenerateOutput("They have rolled a " + roll);
             const int TRIGGERRESETPLACE = 11;
             const int RESETPLACE = 12;
 
@@ -80,19 +85,19 @@ namespace UglyTrivia
                 {
                     isGettingOutOfPenaltyBox = true;
 
-                   GenerateOutput(players[currentPlayer] + " is getting out of the penalty box");
+                   _outputter.GenerateOutput(players[currentPlayer] + " is getting out of the penalty box");
                     places[currentPlayer] = places[currentPlayer] + roll;
                     if (places[currentPlayer] > TRIGGERRESETPLACE) places[currentPlayer] = places[currentPlayer] - RESETPLACE;
 
-                   GenerateOutput(players[currentPlayer]
+                   _outputter.GenerateOutput(players[currentPlayer]
                             + "'s new location is "
                             + places[currentPlayer]);
-                   GenerateOutput("The category is " + currentCategory());
+                   _outputter.GenerateOutput("The category is " + currentCategory());
                     askQuestion();
                 }
                 else
                 {
-                   GenerateOutput(players[currentPlayer] + " is not getting out of the penalty box");
+                   _outputter.GenerateOutput(players[currentPlayer] + " is not getting out of the penalty box");
                     isGettingOutOfPenaltyBox = false;
                 }
 
@@ -103,10 +108,10 @@ namespace UglyTrivia
                 places[currentPlayer] = places[currentPlayer] + roll;
                 if (places[currentPlayer] > TRIGGERRESETPLACE) places[currentPlayer] = places[currentPlayer] - RESETPLACE;
 
-               GenerateOutput(players[currentPlayer]
+               _outputter.GenerateOutput(players[currentPlayer]
                         + "'s new location is "
                         + places[currentPlayer]);
-               GenerateOutput("The category is " + currentCategory());
+               _outputter.GenerateOutput("The category is " + currentCategory());
                 askQuestion();
             }
 
@@ -116,22 +121,22 @@ namespace UglyTrivia
         {
             if (currentCategory() == "Pop")
             {
-               GenerateOutput(popQuestions.First());
+               _outputter.GenerateOutput(popQuestions.First());
                 popQuestions.RemoveFirst();
             }
             if (currentCategory() == "Science")
             {
-               GenerateOutput(scienceQuestions.First());
+               _outputter.GenerateOutput(scienceQuestions.First());
                 scienceQuestions.RemoveFirst();
             }
             if (currentCategory() == "Sports")
             {
-               GenerateOutput(sportsQuestions.First());
+               _outputter.GenerateOutput(sportsQuestions.First());
                 sportsQuestions.RemoveFirst();
             }
             if (currentCategory() == "Rock")
             {
-               GenerateOutput(rockQuestions.First());
+               _outputter.GenerateOutput(rockQuestions.First());
                 rockQuestions.RemoveFirst();
             }
         }
@@ -157,9 +162,9 @@ namespace UglyTrivia
             {
                 if (isGettingOutOfPenaltyBox)
                 {
-                   GenerateOutput("Answer was correct!!!!");
+                   _outputter.GenerateOutput("Answer was correct!!!!");
                     purses[currentPlayer]++;
-                   GenerateOutput(players[currentPlayer]
+                   _outputter.GenerateOutput(players[currentPlayer]
                             + " now has "
                             + purses[currentPlayer]
                             + " Gold Coins.");
@@ -183,9 +188,9 @@ namespace UglyTrivia
             else
             {
 
-               GenerateOutput("Answer was corrent!!!!");
+               _outputter.GenerateOutput("Answer was corrent!!!!");
                 purses[currentPlayer]++;
-               GenerateOutput(players[currentPlayer]
+               _outputter.GenerateOutput(players[currentPlayer]
                         + " now has "
                         + purses[currentPlayer]
                         + " Gold Coins.");
@@ -200,8 +205,8 @@ namespace UglyTrivia
 
         public bool wrongAnswer()
         {
-           GenerateOutput("Question was incorrectly answered");
-           GenerateOutput(players[currentPlayer] + " was sent to the penalty box");
+           _outputter.GenerateOutput("Question was incorrectly answered");
+           _outputter.GenerateOutput(players[currentPlayer] + " was sent to the penalty box");
             inPenaltyBox[currentPlayer] = true;
 
             currentPlayer++;
@@ -215,10 +220,7 @@ namespace UglyTrivia
             return !(purses[currentPlayer] == 6);
         }
 
-        public void GenerateOutput(string output)
-        {
-            Console.WriteLine(output);
-        }
+        
     }
 
 }

@@ -14,7 +14,8 @@ namespace Trivia
 
         public static void Main(String[] args)
         {
-            Game aGame = new Game();
+            ConsoleOutputter consoleOutputter = new ConsoleOutputter();
+            Game aGame = new Game(consoleOutputter);
 
             aGame.add("Chet");
             aGame.add("Pat");
