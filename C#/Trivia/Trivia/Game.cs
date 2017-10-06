@@ -43,7 +43,8 @@ namespace UglyTrivia
 
         public bool isPlayable()
         {
-            return (howManyPlayers() >= 2);
+            const int MAXPLAYERS = 2;
+            return (howManyPlayers() >= MAXPLAYERS);
         }
 
         public bool add(String playerName)
