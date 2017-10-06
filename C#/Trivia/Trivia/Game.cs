@@ -8,8 +8,6 @@ namespace UglyTrivia
 {
     public class Game 
     {
-
-
         List<string> players = new List<string>();
 
         int[] places = new int[6];
@@ -81,23 +79,23 @@ namespace UglyTrivia
 
             if (inPenaltyBox[currentPlayer])
             {
-                if (roll % 2 != 0)
+                if (IsUneven(roll))
                 {
                     isGettingOutOfPenaltyBox = true;
 
-                   _outputter.GenerateOutput(players[currentPlayer] + " is getting out of the penalty box");
+                    _outputter.GenerateOutput(players[currentPlayer] + " is getting out of the penalty box");
                     places[currentPlayer] = places[currentPlayer] + roll;
                     if (places[currentPlayer] > TRIGGERRESETPLACE) places[currentPlayer] = places[currentPlayer] - RESETPLACE;
 
-                   _outputter.GenerateOutput(players[currentPlayer]
-                            + "'s new location is "
-                            + places[currentPlayer]);
-                   _outputter.GenerateOutput("The category is " + currentCategory());
+                    _outputter.GenerateOutput(players[currentPlayer]
+                             + "'s new location is "
+                             + places[currentPlayer]);
+                    _outputter.GenerateOutput("The category is " + currentCategory());
                     askQuestion();
                 }
                 else
                 {
-                   _outputter.GenerateOutput(players[currentPlayer] + " is not getting out of the penalty box");
+                    _outputter.GenerateOutput(players[currentPlayer] + " is not getting out of the penalty box");
                     isGettingOutOfPenaltyBox = false;
                 }
 
@@ -115,6 +113,11 @@ namespace UglyTrivia
                 askQuestion();
             }
 
+        }
+
+        private static bool IsUneven(int roll)
+        {
+            return roll % 2 != 0;
         }
 
         private void askQuestion()
