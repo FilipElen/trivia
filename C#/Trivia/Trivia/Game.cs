@@ -26,7 +26,8 @@ namespace UglyTrivia
 
         public Game()
         {
-            for (int i = 0; i < 50; i++)
+            const int MAXAMOUNTQUESTIONS = 50;
+            for (int i = 0; i < MAXAMOUNTQUESTIONS; i++)
             {
                 popQuestions.AddLast("Pop Question " + i);
                 scienceQuestions.AddLast(("Science Question " + i));
